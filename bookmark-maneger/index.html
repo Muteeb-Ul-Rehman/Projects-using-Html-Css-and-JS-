@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ultimate Bookmark Manager — Pro Alpha</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>Bookmark Pro</h1>
+        <div class="muted">alpha • local-first</div>
+      </div>
+
+      <div class="controls">
+        <input id="quickSearch" class="search" placeholder="Press / to search — title, url, tags..." />
+        <button id="addBtn" class="btn primary">Add</button>
+        <button id="importBtn" class="btn">Import</button>
+        <button id="exportBtn" class="btn">Export</button>
+        <button id="exportEncBtn" class="btn">Export (Encrypted)</button>
+        <button id="themeToggle" class="btn">Theme</button>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3>Categories</h3>
+        <ul id="categoryList" class="category-list"></ul>
+        <div class="cat-actions">
+          <input id="newCategoryInput" placeholder="New category" />
+          <button id="addCategoryBtn" class="btn">Add</button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Quick Filters</h3>
+        <button class="btn small" data-filter="all">All</button>
+        <button class="btn small" data-filter="unpinned">Unpinned</button>
+        <button class="btn small" data-filter="pinned">Pinned</button>
+        <button class="btn small" data-filter="trash">Trash</button>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Stats</h3>
+        <div id="statsArea" class="stats">Loading...</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="toolbar">
+        <div class="left">
+          <select id="sortSelect" class="select">
+            <option value="created_desc">Newest</option>
+            <option value="created_asc">Oldest</option>
+            <option value="title_asc">Title A→Z</option>
+            <option value="title_desc">Title Z→A</option>
+          </select>
+          <button id="openAllBtn" class="btn">Open All</button>
+          <button id="bulkBtn" class="btn">Bulk Select</button>
+          <button id="cleanDupBtn" class="btn">Find Duplicates</button>
+        </div>
+
+        <div class="right">
+          <input id="pasteImport" placeholder="Paste links (one per line) and press Enter" />
+        </div>
+      </div>
+
+      <section id="board" class="board" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <!-- Add/Edit modal -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button id="closeModal" class="modal-close">&times;</button>
+      <h2 id="modalTitle">Add Bookmark</h2>
+      <label>Title</label>
+      <input id="bTitle" type="text" placeholder="Title" />
+      <label>URL</label>
+      <input id="bUrl" type="url" placeholder="https://example.com" />
+      <label>Category</label>
+      <select id="bCategory"></select>
+      <label>Tags (comma separated)</label>
+      <input id="bTags" placeholder="tag1, tag2" />
+      <label>Notes</label>
+      <textarea id="bNotes" placeholder="Optional notes"></textarea>
+
+      <div class="modal-actions">
+        <button id="saveBtn" class="btn primary">Save</button>
+        <button id="saveAndOpenBtn" class="btn">Save & Open</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- file inputs hidden -->
+  <input id="importFile" type="file" accept=".json,.html" style="display:none" />
+
+  <script src="app.js"></script>
+</body>
+</html>
