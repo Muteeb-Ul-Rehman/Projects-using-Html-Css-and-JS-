@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #d0eaff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            /* space between heading and calculator */
+            padding: 20px;
+        }
+
+        .heading h1 {
+            font-size: 22px;
+            color: #007bff;
+            margin: 0;
+            text-align: center;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .heading {
+            position: absolute;
+            top: 30px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .main {
+            position: relative;
+            background-color: #111;
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 260px;
+            box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .display {
+            color: #007bff;
+            font-size: 14px;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.9s;
+            background-color: #222;
+            color: #007bff
+        }
+
+        .btn-func {
+            background-color: #555;
+            color: white;
+        }
+
+        .btn-num {
+            background-color: #222;
+            color: #007bff
+        }
+
+        .btn-operator {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-equals {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-plus {
+            background-color: #007bff;
+            color: white;
+            grid-row: span 2;
+
+        }
+
+        .btn-zero {
+            grid-column: span 2;
+            background-color: #222;
+            color: #007bff
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="heading">
+            <h1>🧠 Calculate Anything, Anytime</h1>
+        </div>
+
+        <div class="main">
+            <div class="display" id="expression"></div>
+            <div class="result" id="result">=</div>
+
+            <div class="buttons">
+                <button class="btn-func">Ac</button>
+                <button class="btn-func">⌫</button>
+                <button class="btn-operator">/</button>
+                <button class="btn-operator">*</button>
+
+
+                <button class="button">7</button>
+                <button class="button">8</button>
+                <button class="button">9</button>
+                <button class="btn-operator">-</button>
+
+
+                <button class="button">4</button>
+                <button class="button">5</button>
+                <button class="button">6</button>
+                <button class="btn-plus">+</button>
+
+
+                <button class="button">1</button>
+                <button class="button">2</button>
+                <button class="button">3</button>
+
+
+                <button class="btn-zero ">0</button>
+                <button class="btn-num">.</button>
+                <button class="btn-equals">=</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById("expression");
+        const resultDisplay = document.getElementById("result");
+        let expression = "";
+
+        document.querySelectorAll("button").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const value = btn.innerText;
+                if (value === "Ac") {
+                    expression = "";
+                    display.textContent = "";
+                    resultDisplay.textContent = "=";
+                } else if (value === "⌫") {
+                    expression = expression.slice(0, -1);
+                    display.textContent = expression;
+                } else if (value === "=") {
+                    try {
+                        const result = eval(expression);
+                        resultDisplay.textContent = "=" + result.toLocaleString();
+                    } catch {
+                        resultDisplay.textContent = "= Error";
+                    }
+                } else {
+                    expression += value;
+                    display.textContent = expression;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
