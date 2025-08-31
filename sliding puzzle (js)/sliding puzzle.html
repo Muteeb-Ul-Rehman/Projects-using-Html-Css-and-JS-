@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sliding Puzzle Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px;
+      background: rgba(0,0,0,0.3);
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .game-container {
+      margin-top: 40px;
+      background: #ffffff15;
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    .puzzle-container {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-template-rows: repeat(4, 100px);
+      gap: 8px;
+      margin: 20px auto;
+    }
+
+    .tile {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 26px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: transform 0.2s, background 0.3s;
+      user-select: none;
+    }
+
+    .tile:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    }
+
+    .empty {
+      background: transparent;
+      box-shadow: inset 0 0 5px rgba(255,255,255,0.4);
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-content {
+      background: #111;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+    .modal-content h2 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #ffda77;
+    }
+    .modal-content video {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+  <header>🎮 Sliding Puzzle Game</header>
+
+  <div class="game-container">
+    <h3>Arrange the numbers in order!</h3>
+    <div class="puzzle-container" id="puzzle-container"></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="congratsModal">
+    <div class="modal-content">
+      <h2>🎉 Congratulations! 🎉</h2>
+      <video autoplay loop muted>
+        <!-- <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"> -->
+        <a href="https://www.animatedimages.org/cat-congratulations-1103.htm"><img src="https://www.animatedimages.org/data/media/1103/animated-congratulation-image-0058.gif" border="0" alt="animated-congratulation-image-0058" /></a>
+        Your browser does not support video.
+      </video>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('puzzle-container');
+    const modal = document.getElementById('congratsModal');
+    const size = 4;
+    let tiles = [];
+
+    function init() {
+      for (let i = 0; i < size * size; i++) {
+        const tile = document.createElement('div');
+        tile.classList.add('tile');
+        if (i < size * size - 1) {
+          tile.textContent = i + 1;
+        } else {
+          tile.classList.add('empty');
+        }
+        tile.addEventListener('click', moveTile);
+        tiles.push(tile);
+        container.appendChild(tile);
+      }
+      shuffle();
+    }
+
+    function shuffle() {
+      for (let i = tiles.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+      }
+      tiles.forEach(tile => container.appendChild(tile));
+    }
+
+    function moveTile() {
+      const emptyTile = document.querySelector('.empty');
+      const emptyIndex = Array.prototype.indexOf.call(container.children, emptyTile);
+      const clickedIndex = Array.prototype.indexOf.call(container.children, this);
+
+      const rowDifference = Math.abs(Math.floor(emptyIndex / size) - Math.floor(clickedIndex / size));
+      const colDifference = Math.abs((emptyIndex % size) - (clickedIndex % size));
+
+      if ((rowDifference === 1 && colDifference === 0) || (rowDifference === 0 && colDifference === 1)) {
+        [emptyTile.textContent, this.textContent] = [this.textContent, emptyTile.textContent];
+        emptyTile.classList.remove('empty');
+        this.classList.add('empty');
+      }
+
+      checkWin();
+    }
+
+    function checkWin() {
+      const current = Array.from(container.children).map(tile => tile.textContent.trim());
+      const correct = [...Array(size * size - 1).keys()].map(n => (n + 1).toString()).concat('');
+      if (JSON.stringify(current) === JSON.stringify(correct)) {
+        modal.classList.add('active');
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
