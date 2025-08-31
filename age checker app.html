@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Age Checker 🚗</title>
+  <style>
+    :root {
+      --primary: #4ade80;
+      /* green */
+      --secondary: #1e293b;
+      /* slate */
+      --danger: #ef4444;
+      /* red */
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #ffffff;
+    }
+
+    .card {
+      background: #020617cc;
+      /* translucent dark */
+      padding: 2rem 3rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: 2rem;
+      letter-spacing: 0.5px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      all: unset;
+      background: var(--primary);
+      color: var(--secondary);
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #result {
+      margin-top: 1rem;
+      font-size: 1.25rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    #result.show {
+      opacity: 1;
+    }
+
+    #result.ok {
+      color: var(--primary);
+    }
+
+    #result.no {
+      color: var(--danger);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>🚦 Can You Drive?</h1>
+    <input id="age-input" type="number" min="0" placeholder="Enter your age e.g. 18" />
+    <button id="check-btn">Check Now</button>
+    <p id="result"></p>
+  </div>
+  <script>
+    const ageInput = document.getElementById('age-input');
+    const result = document.getElementById('result');
+    const checkBtn = document.getElementById('check-btn');
+
+    function checkAge() {
+      const age = Number(ageInput.value);
+      if (!ageInput.value || age < 0) {
+        result.textContent = '⛔️ Please enter a valid age!';
+        result.className = 'show no';
+        return;
+      }
+      const message = age >= 18 ? '🎉 Yes, you can drive!' : '🚫 Sorry, you cannot drive yet.';
+      result.textContent = message;
+      result.className = 'show ' + (age >= 18 ? 'ok' : 'no');
+    }
+
+    checkBtn.addEventListener('click', checkAge);
+    ageInput.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') checkAge();
+    });
+  </script>
+</body>
+
+</html>
