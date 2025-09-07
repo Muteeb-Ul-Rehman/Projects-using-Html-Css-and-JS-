@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>csss image viewer</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .wraper{
+      width: 80%;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      padding: 50px 0px;
+
+
+    }
+    .card{
+      width: 4%;
+      height: 80vh;
+      border-radius: 50px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+    }
+    .card:nth-child(1){
+      background-image: url(images/image1.png);
+    }
+    .card:nth-child(2){
+      background-image: url(images/image2.png);
+    }
+    .card:nth-child(3){
+      background-image: url(images/image3.png);
+    }
+    .card:nth-child(4){
+      background-image: url(images/image4.png);
+    }
+    .card:nth-child(5){
+      background-image: url(images/image5.png);
+    }
+    .active{
+      width: 70%;
+
+    }
+  </style>
+</head>
+<body>
+  <div class="wraper">
+    <div class="card active"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+    <div class="card"></div>
+  </div>
+
+</body>
+<script>
+  let cards = document.querySelectorAll('.card');
+  cards.forEach((card)=>{
+    card.addEventListener('click',()=>{
+      cards.forEach((c)=>{
+        c.classList.remove('active');
+      })
+      card.classList.add('active');
+    })
+  })
+</script>
+</html>
